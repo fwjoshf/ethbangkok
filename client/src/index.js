@@ -6,6 +6,11 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.css";
 import { BrowserRouter as Router } from "react-router-dom";
 
+// Define Blockscout link utilities for global usage
+export const getBlockscoutTxLink = (txHash) => `https://blockscout.com/eth/mainnet/tx/${txHash}`;
+export const getBlockscoutWalletLink = (walletAddress) => `https://blockscout.com/eth/mainnet/address/${walletAddress}`;
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

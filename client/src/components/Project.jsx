@@ -1,14 +1,14 @@
-import React from 'react'
-import {keepShorter} from '../utils'
-import {useNavigate} from 'react-router-dom'
+import React from 'react';
+import { keepShorter } from '../utils';
+import { useNavigate } from 'react-router-dom';
 
 const Project = (props) => {
-  const {data} = props
+  const { data } = props;
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleClick = (e) => {
-    navigate(`/campaign/${e.currentTarget.id}`)
-  }
+    navigate(`/campaign/${e.currentTarget.id}`);
+  };
 
   return (
     <div
@@ -26,10 +26,10 @@ const Project = (props) => {
         </div>
       </div>
       <div className="text-center">
-        <span className="inline-block  bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
           {data.businessName}
         </span>
-        <span className="inline-block  bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
           ${data.goalAmount}
         </span>
       </div>
@@ -37,8 +37,19 @@ const Project = (props) => {
         <span className="text-gray-700 italic">{data.due}</span>
         <span className="text-gray-700 italic">{data.location}</span>
       </div>
+      {/* Blockscout Integration */}
+      <div className="mt-4">
+        <a
+          href={`https://blockscout.com/eth/mainnet/address/${data.creatorWallet}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500 underline"
+        >
+          View Creator's Wallet on Blockscout
+        </a>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Project
+export default Project;

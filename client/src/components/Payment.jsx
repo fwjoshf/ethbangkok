@@ -2,13 +2,24 @@ import React, { useState } from "react";
 
 const Payment = () => {
   const [amount, setAmount] = useState(0);
-  const handleSubmit = (e) => {
+  const [transactionHash, setTransactionHash] = useState(null); // For storing transaction hash
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // send user ndf badge page
-    console.log(`Thanks for your contribution:\n${amount} ETH`);
-    setAmount(0);
+    try {
+      // Simulate payment processing and getting a transaction hash
+      const simulatedTxHash = "0x123456789abcdef123456789abcdef123456789abcdef123456789abcdef1234"; // Replace with actual tx hash from backend
+      console.log(`Thanks for your contribution:\n${amount} ETH`);
+      
+      // Reset amount and store transaction hash
+      setTransactionHash(simulatedTxHash);
+      setAmount(0);
+    } catch (error) {
+      console.error("Payment failed:", error);
+    }
   };
+
   return (
     <div className="mt-10">
       <form onSubmit={handleSubmit}>
@@ -39,6 +50,22 @@ const Payment = () => {
           </button>
         </div>
       </form>
+
+      {transactionHash && (
+        <div className="mt-6 text-center">
+          <p className="text-gray-700">
+            Thank you for your contribution! You can view the transaction below:
+          </p>
+          <a
+            href={`https://blockscout.com/eth/mainnet/tx/${transactionHash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            View Transaction on Blockscout
+          </a>
+        </div>
+      )}
     </div>
   );
 };

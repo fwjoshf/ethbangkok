@@ -1,29 +1,30 @@
-import React, {useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom'
-import {sampleData} from '../assets'
-import {Offcanvas} from '../components'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { sampleData } from '../assets';
+import { Offcanvas } from '../components';
+import axios from 'axios';
 
 const SingleProject = () => {
-  const {id} = useParams()
-  const [currentAmount, setCurrentAmount] = useState()
+  const { id } = useParams();
+  const [currentAmount, setCurrentAmount] = useState();
+
+  // Find the current project data
+  const data = sampleData.find((item) => item.id === Number(id));
 
   useEffect(() => {
     try {
       axios
         .get(`http://localhost:3001/hedera/balance/${data.accountId}`)
         .then(function (response) {
-          setCurrentAmount(response.data)
+          setCurrentAmount(response.data);
         })
         .catch(function (error) {
-          console.error(error)
-        })
+          console.error(error);
+        });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }, [])
-
-  const data = sampleData.find((item) => item.id === Number(id))
+  }, [data.accountId]);
 
   return (
     <div className="pt-12 text-center">
@@ -51,6 +52,16 @@ const SingleProject = () => {
         <span className="text-gray-700 text-lg italic">
           Public ID: {data.accountId}
         </span>
+        <span className="text-gray-700 text-lg italic">
+          <a
+            href={`https://blockscout.com/eth/mainnet/address/${data.accountId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            View Wallet on Blockscout
+          </a>
+        </span>
       </div>
       <div className="flex flex-row justify-between p-10">
         <span className="text-gray-700 italic">Due: {data.due}</span>
@@ -59,7 +70,7 @@ const SingleProject = () => {
 
       <Offcanvas data={data} />
     </div>
-  )
-}
+  );
+};
 
-export default SingleProject
+export default SingleProject;
