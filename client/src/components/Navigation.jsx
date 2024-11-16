@@ -1,8 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -38,13 +43,20 @@ function Navigation() {
             to="/"
             className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
           >
-            Projects
+            Campaigns
           </Link>
           <Link
-            to="/create-project"
+            to="/create-campaign"
             className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
           >
-            Create Project
+            Create Campain
+          </Link>
+          <Link
+            //id=1 for now
+            to="/account/1"
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"
+          >
+            My Account
           </Link>
         </div>
         <div>
