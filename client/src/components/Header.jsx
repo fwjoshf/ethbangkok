@@ -8,7 +8,7 @@ export const Header = () => {
 
   useEffect(() => {
     const fetchWalletAddress = async () => {
-      const connectedWallet = "0x1234567890abcdef1234567890abcdef12345678"; // Example address
+      const connectedWallet = process.env.MY_EVM_ADDRESS; // Example address
       setWalletAddress(connectedWallet);
     };
 

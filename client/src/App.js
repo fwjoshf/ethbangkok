@@ -8,8 +8,8 @@ import {
   Login,
   Account,
 } from './pages';
-import { config } from './pages/Config';
-import { PublicClientApplication } from '@azure/msal-browser';
+//import { config } from './pages/Config';
+//import { PublicClientApplication } from '@azure/msal-browser';
 import React, { useState, useEffect } from 'react';
 
 function BlockscoutIntegration() {
@@ -92,8 +92,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Projects />} />
         <Route path="/create-campaign" element={<CreateProject />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} /> */}
         <Route path="/campaign/:id" element={<SingleProject />} />
         <Route path="/account/:id" element={<Account />} />
         {/* New Route for Blockscout Integration */}
