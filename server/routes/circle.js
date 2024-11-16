@@ -36,35 +36,22 @@ router.post('/convertToHbar', async function (req, res) {
   }
 })
 
-const crypto = require('crypto');
-const secret = crypto.randomBytes(32).toString('hex')
-//import { initiateDeveloperControlledWalletsClient } from '@circle-fin/developer-controlled-wallets';
-const { getPublicKey } = require('../module/circleClient');
-
 router.post('/encryptCard', async function (req, res) {
-  try {
   const {cardNumber, cvc} = req.body
-  if (!cardNumber || !cvc) {
-    return res.status(400).json({ error: 'Card number and CVC are required' });
-  }
 
-  const publicKeyResponse = getPublicKey(process.env.CIRCLE_API_KEY);
-  console.log('Public key response:', publicKeyResponse);
-  const publicKeyData = publicKeyResponse.data.data;
-
-  console.log('Public key data is:', publicKeyData);
-
-    const encryptedData = await encryptCardData(
-      cardNumber,
-      cvc,
-      publicKeyData.publicKey,
-      publicKeyData.keyId
-    );
+  const circle = new Circle(
+    process.env.CIRCLE_API_KEY,
+    CircleEnvironments.sandbox, // API base url
+  )
+  const publicKey = await circle.encryption.getPublicKey()
+  console.log("publicKey",publicKey)  
+  const encryptedData = await encryptCardData(
+    cardNumber,
+    cvc,
+    publicKey.data.data.publicKey,
+    publicKey.data.data.keyId,
+  )
   res.json({encryptedData})
-} catch (error) {
-  console.error('Error encrypting card details:', error);
-  res.status(500).json({ error: error.message });
-}
 })
 
 // Sample input
@@ -186,32 +173,26 @@ router.post('/anonymousDonate', async function (req, res) {
 })
 
 async function getHbarEquivalent(dollarAmount) {
-  dollarAmount = Number(dollarAmount);
-  console.log('Dollar amount:', dollarAmount);
-  try {
-    const response = await axios.get(
-      'https://mainnet-public.mirrornode.hedera.com/api/v1/network/exchangerate'
-    );
-    const data = response.data;
-    console.log(data)
-    // cent_equivalent represents the number of cents one hbar is worth
-    const centEquivalentPerHbar =
-      Number(data.current_rate.cent_equivalent) / Number(data.current_rate.hbar_equivalent);
-    console.log('Cent equivalent per Hbar:', centEquivalentPerHbar);
-    // Convert input dollar amount to cents
-    const cents = Number(dollarAmount) * 100;
-    console.log('Cents:', cents);
-    // Convert input cents to hbars
-    let hbars = cents / centEquivalentPerHbar;
-    console.log('Hbar equivalent:', hbars);
-    // Round to 8 decimal places
-    hbars = hbars.toFixed(8);
-    console.log('Hbar equivalent2:', hbars);
-    return hbars;
-  } catch (error) {
-    console.error('Error fetching Hbar equivalent:', error);
-    return null;
-  }
+  const response = await axios.get(
+    'https://mainnet-public.mirrornode.hedera.com/api/v1/network/exchangerate',
+  )
+
+  const data = response.data
+
+  // cent_equivalent represents the number of cents one hbar is worth
+  const centEquivalentPerHbar =
+    data.current_rate.cent_equivalent / data.current_rate.hbar_equivalent
+
+  // Convert input dollar amount to cents
+  const cents = dollarAmount * 100
+
+  // Convert input cents to hbars
+  let hbars = cents / centEquivalentPerHbar
+
+  // Round to 8 decimal places
+  hbars = hbars.toFixed(8)
+
+  return hbars
 }
 
 async function encryptCardData(number, cvv, publicKey, keyId) {
