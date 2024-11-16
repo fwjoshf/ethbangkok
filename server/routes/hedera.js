@@ -1,7 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const BigNumber = require('bignumber.js')
-
 const {
   Client,
   PrivateKey,
@@ -14,15 +12,11 @@ const {
   AccountBalanceQuery,
   AccountInfoQuery,
 } = require('@hashgraph/sdk')
-var {Circle, CircleEnvironments} = require('@circle-fin/circle-sdk')
 require('dotenv').config()
-const {v4: uuidv4} = require('uuid')
 const axios = require('axios')
-const {readKey, createMessage, encrypt, Key, armor} = require('openpgp')
 
 const myAccountId = process.env.MY_ACCOUNT_ID
 const myPrivateKey = process.env.MY_PRIVATE_KEY
-
 //Create your Hedera Testnet client
 const client = Client.forTestnet()
 client.setOperator(myAccountId, myPrivateKey)

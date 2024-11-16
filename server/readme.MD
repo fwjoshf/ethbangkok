@@ -1,8 +1,6 @@
 # Backend Server for Web3 Fundraising app
 
 
-## Testing:
-
 ### First lets test if our conversion route works
 According to coinbase 0.25$ is roughly equal to 5.027 hbars
 
@@ -14,6 +12,9 @@ curl -X POST -H "Content-Type: application/json" -d "{\"amount\":0.25}" http://l
 {"hbars":5.004604235897025}
 ```
 Looks about right!
+
+## Hedera
+
 
 ### Here we simulate a user creating an account, which starts off with 10 Hbars
 ```bash
@@ -74,7 +75,7 @@ curl http://localhost:3000/hedera/balance/0.0.15032471
 {"hbars":"4.99337772 ℏ"}
 ```
 
-### Now lets start testing circle
+## Now lets start testing circle
 First testing encrypting a dummy card number and cvc provided by Circle
 
 ```bash

@@ -7,6 +7,9 @@
   },
   "dependencies": {
     "@circle-fin/circle-sdk": "^2.0.0",
+    "@circle-fin/developer-controlled-wallets": "^5.0.1",
+    "@circle-fin/smart-contract-platform": "^5.0.0",
+    "@circle-fin/user-controlled-wallets": "^5.0.0",
     "@hashgraph/sdk": "^2.29.0",
     "axios": "^1.4.0",
     "bignumber.js": "^9.1.1",
