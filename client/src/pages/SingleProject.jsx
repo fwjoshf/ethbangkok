@@ -14,7 +14,7 @@ const SingleProject = () => {
   useEffect(() => {
     try {
       axios
-        .get(`http://localhost:3001/hedera/balance/${data.accountId}`)
+        .get(`http://localhost:3000/hedera/balance/${data.accountId}`)
         .then(function (response) {
           setCurrentAmount(response.data);
         })
@@ -48,20 +48,20 @@ const SingleProject = () => {
           Goal: ${data.goalAmount}
         </span>
       </div>
-      <div className="flex flex-row justify-center p-10">
-        <span className="text-gray-700 text-lg italic">
+      <div className="flex flex-col justify-center p-10">
+        <div className="text-gray-700 text-lg italic">
           Public ID: {data.accountId}
-        </span>
-        <span className="text-gray-700 text-lg italic">
+        </div>
+        <div className="text-gray-700 text-lg italic">
           <a
-            href={`https://blockscout.com/eth/mainnet/address/${data.accountId}`}
+            href={`https://hashscan.io/testnet/account/${data.accountId}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 underline"
           >
-            View Wallet on Blockscout
+            View Wallet on hashscan.io
           </a>
-        </span>
+        </div>
       </div>
       <div className="flex flex-row justify-between p-10">
         <span className="text-gray-700 italic">Due: {data.due}</span>

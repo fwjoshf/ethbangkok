@@ -30,7 +30,6 @@ const Offcanvas = (props) => {
           <h4 className="mb-3 text-2xl text-gray-400 italic">
             {data.businessName}
           </h4>
-          <Payment />
           <CardPayment accountId={data.accountId} />
         </div>
       )}

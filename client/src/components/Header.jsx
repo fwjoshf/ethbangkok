@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const getBlockscoutWalletLink = (walletAddress) =>
-  `https://blockscout.com/eth/mainnet/address/${walletAddress}`;
+  `https://hashscan.io/testnet/account/${walletAddress}`;
 
 export const Header = () => {
   const [walletAddress, setWalletAddress] = useState("");
@@ -34,7 +34,7 @@ export const Header = () => {
             rel="noopener noreferrer"
             style={{ textDecoration: "none", color: "#007bff" }}
           >
-            View Wallet on Blockscout
+            View Wallet on hashscan.iohashscan.io
           </a>
         ) : (
           <span>No Wallet Connected</span>

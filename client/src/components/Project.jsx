@@ -40,12 +40,12 @@ const Project = (props) => {
       {/* Blockscout Integration */}
       <div className="mt-4">
         <a
-          href={`https://blockscout.com/eth/mainnet/address/${data.creatorWallet}`}
+          href={`https://hashscan.io/testnet/account/${data.accountId}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-500 underline"
         >
-          View Creator's Wallet on Blockscout
+          View Creator's Wallet on hashscan.io
         </a>
       </div>
     </div>

@@ -54,27 +54,6 @@ router.post('/encryptCard', async function (req, res) {
   res.json({encryptedData})
 })
 
-// Sample input
-// {
-//   "number: "4000000000000002",
-//   "cvc": "123",
-//   "expMonth": 12,
-//   "expYear": 2024,
-//   "billingDetails": {
-//     "name": "John Doe",
-//     "city": "San Francisco",
-//     "country": "US",
-//     "line1": "123 Main St",
-//     "postalCode": "94103"
-//     "district": "CA"
-//   },
-//   "metadata": {
-//     "email": "john.doe@example.com",
-//     "sessionId": "hashed_session_id",
-//     "ipAddress": "192.0.2.1"
-//   }
-// }
-
 router.post('/anonymousDonate', async function (req, res) {
   const circle = new Circle(
     process.env.CIRCLE_API_KEY,
