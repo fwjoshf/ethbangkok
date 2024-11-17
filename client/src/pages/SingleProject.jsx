@@ -3,12 +3,13 @@ import { useParams } from 'react-router-dom';
 import { sampleData } from '../assets';
 import { Offcanvas } from '../components';
 import axios from 'axios';
+import CoinbaseOnramp from '../components/CoinbaseOnramp'; 
 
 const SingleProject = () => {
   const { id } = useParams();
   const [currentAmount, setCurrentAmount] = useState();
 
-  // Find the current project data
+
   const data = sampleData.find((item) => item.id === Number(id));
 
   useEffect(() => {
@@ -25,6 +26,12 @@ const SingleProject = () => {
       console.error(error);
     }
   }, [data.accountId]);
+
+
+  const handleOnrampSuccess = (transaction) => {
+    console.log('Fiat-to-Crypto Transaction Successful:', transaction);
+    alert('Thank you for your contribution!');
+  };
 
   return (
     <div className="pt-12 text-center">
@@ -66,6 +73,14 @@ const SingleProject = () => {
       <div className="flex flex-row justify-between p-10">
         <span className="text-gray-700 italic">Due: {data.due}</span>
         <span className="text-gray-700 italic">{data.location}</span>
+      </div>
+
+      {/* Coinbase Onramp Section */}
+      <div className="flex flex-col items-center p-10">
+        <h2 className="text-2xl font-bold mb-5">Contribute with Fiat</h2>
+        <CoinbaseOnramp
+          onSuccess={handleOnrampSuccess} 
+        />
       </div>
 
       <Offcanvas data={data} />

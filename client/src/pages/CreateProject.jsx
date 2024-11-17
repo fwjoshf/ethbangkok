@@ -1,19 +1,25 @@
-import React, {useState} from 'react'
-import axios from 'axios'
-import {allRegions} from '../assets'
-import {v4 as uuidv4} from 'uuid'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { allRegions } from '../assets';
+import { v4 as uuidv4 } from 'uuid';
+import CoinbaseOnramp from '../components/CoinbaseOnramp'; 
 
 const CreateProject = () => {
-  const [title, setTitle] = useState('')
-  const [goalAmount, setgoalAmount] = useState(100)
-  const [due, setDue] = useState('')
-  const [location, setLocation] = useState('')
-  const [description, setDescription] = useState('')
-  const [selectedFile, setSelectedFile] = useState(null)
+  const [title, setTitle] = useState('');
+  const [goalAmount, setgoalAmount] = useState(100);
+  const [due, setDue] = useState('');
+  const [location, setLocation] = useState('');
+  const [description, setDescription] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [walletFunded, setWalletFunded] = useState(false); // Track wallet funding status
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    // Perform form submission logic here
+    e.preventDefault();
+    if (!walletFunded) {
+      alert('Please fund your wallet using fiat before creating the project.');
+      return;
+    }
+
     console.log('Submitted:', {
       title,
       goalAmount,
@@ -21,34 +27,40 @@ const CreateProject = () => {
       location,
       description,
       selectedFile,
-    })
-    let fundraiserId = uuidv4()
+    });
+
+    let fundraiserId = uuidv4();
 
     axios
       .post('http://localhost:3000/hedera/createFundraiser', {
         fundraiserId: fundraiserId,
       })
       .then(function (response) {
-        // {fundraiserId, accountId, privateKey}
-        console.log(response.data)
+        console.log(response.data); 
       })
       .catch(function (error) {
-        console.error(error)
-      })
-  }
+        console.error(error);
+      });
+  };
+
   const handleFileUpload = (event) => {
-    const file = event.target.files[0]
-    setSelectedFile(file)
-  }
-  const tomorrow = new Date()
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  const minDate = tomorrow.toISOString().split('T')[0]
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const minDate = tomorrow.toISOString().split('T')[0];
+
+  const handleOnrampSuccess = (transaction) => {
+    console.log('Fiat-to-Crypto Transaction Successful:', transaction);
+    setWalletFunded(true); 
+    alert('Wallet successfully funded! You can now create your campaign.');
+  };
 
   return (
     <div className="max-w-md mx-auto pt-48">
-      <h1 className="text-2xl mb-3 font-bold text-center">
-        Create New Campaign
-      </h1>
+      <h1 className="text-2xl mb-3 font-bold text-center">Create New Campaign</h1>
       <form
         onSubmit={handleSubmit}
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mr-2 ml-2"
@@ -162,6 +174,11 @@ const CreateProject = () => {
           />
         </div>
 
+        <div className="mb-6">
+          <h2 className="text-lg font-bold mb-3">Fund Your Wallet with Fiat</h2>
+          <CoinbaseOnramp onSuccess={handleOnrampSuccess} />
+        </div>
+
         <div className="flex items-center justify-center">
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -172,7 +189,7 @@ const CreateProject = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default CreateProject
+export default CreateProject;
